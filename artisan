@@ -1,0 +1,29 @@
+<?php
+    const DEFAULT_PORT = 7000;
+
+    if(count($argv) > 1) {
+        switch($argv[1]) {
+            case "serve":
+                serve();
+                break;
+            case "help":
+                help();
+                break;
+            default:
+                echo "Command not found. Try using 'php artisan help'";
+        }
+    }else{
+        serve();
+    }
+
+    function help() {
+        echo "=== Commands ===\r\n";
+        echo "php artisan help     This will show the help page of the artisan command\r\n";
+        echo "php artisan serve    This will start a local server on port " . DEFAULT_PORT . " hosting your API\r\n";
+        echo "\r\n";
+    }
+
+    function serve() {
+        shell_exec("php -S localhost:" . DEFAULT_PORT);
+    }
+?>

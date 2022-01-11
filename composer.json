@@ -1,0 +1,24 @@
+{
+    "name": "sandro.ruefenacht/phre-api",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Sandro Rüfenacht",
+            "email": "sandro.ruefenacht0@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4.0",
+        "ext-json": "*",
+        "vlucas/phpdotenv": "^5.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "8.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "PHREAPI\\": "src/",
+            "PHREAPITests\\": "tests/"
+        }
+    }
+}
