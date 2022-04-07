@@ -3,7 +3,7 @@
     namespace PHREAPI\kernel\utils\output;
 
     /**
-     * This class will be used to output a given response as JSON.
+     * This class will be used to output a given response as HTML.
      *
      * @class HTMLResponse
      * @package PHREAPI\kernel\utils\output
@@ -17,7 +17,7 @@
         /**
          * Getter
          *
-         * @return mixed returns the http-body for the response as JSON.
+         * @return mixed returns the http-body for the response as HTML.
          */
         public function getBody() {
             $dir = ROOT_DIR . "/src/kernel/utils/output/";

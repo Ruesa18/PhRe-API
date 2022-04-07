@@ -4,9 +4,7 @@ namespace PHREAPI\kernel\utils\output;
 use PHREAPI\kernel\utils\ConfigLoader;
 
 /**
- * [public description]
- *
- * @var [type]
+ * The Logger class will handle all debug-messages.
  */
 class Logger {
 
