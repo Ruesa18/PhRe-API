@@ -6,6 +6,7 @@ use PDO;
 use PDOException;
 use PHREAPI\kernel\utils\exceptions\DatabaseConnectionException;
 use PHREAPI\kernel\utils\exceptions\UnexpectedParameterTypeException;
+use PHREAPI\kernel\utils\ConfigLoader;
 
 /**
  *
@@ -21,7 +22,13 @@ class MySQL implements DatabaseConnectable {
      * @param string $database
      * @param integer $port
      */
-    public function __construct(string $host, string $user, string $password, string $database, int $port = 3306) {
+    public function __construct() {
+        $host = ConfigLoader::get("DB_HOST") ?? "127.0.0.1";
+        $user = ConfigLoader::get("DB_USER") ?? "root";
+        $password = ConfigLoader::get("DB_PASSWORD") ?? "";
+        $database = ConfigLoader::get("DB_DATABASE") ?? "phre-api";
+        $port = ConfigLoader::get("DB_PORT") ?? 3306;
+
         $dsn = "mysql:host=$host;dbname=$database;port=$port";
         try {
             $this->driver = new PDO($dsn, $user, $password);

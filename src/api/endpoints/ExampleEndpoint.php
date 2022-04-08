@@ -4,12 +4,13 @@ namespace PHREAPI\api\endpoints;
 use PHREAPI\kernel\utils\output\AbstractResponse;
 use PHREAPI\kernel\utils\output\JSONResponse;
 use PHREAPI\kernel\utils\interfaces\database\MySQL;
+use PHREAPI\kernel\utils\ConfigLoader;
 
 class ExampleEndpoint extends Endpoint implements Endpointable {
     private $data;
 
     public function index($request): AbstractResponse {
-        $mysql = new MySQL("127.0.0.1", "phre-api-user", "PhRe-API", "phre-api");
+        $mysql = new MySQL();
         $data = $mysql->execute("SELECT * FROM user")->asObject("PHREAPI\api\model\UserModel");
         return new JSONResponse(200, $data);
     }
