@@ -1,4 +1,4 @@
-# PhRe-API
+# PhRe-API - PHP REST-API
 Yet another PHP Backend Framework.
 The possibility that it will not bring any new features is pretty big.
 Soooo... Are you sure you want to take a look at this?
