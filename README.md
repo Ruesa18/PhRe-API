@@ -7,6 +7,9 @@ Well... Here we go then!
 
 # Documentation
 
+## Installation
+In order to have a configuration file copy the `.env.example` file and name it `.env`.
+
 ## Configuration
 Inside of the `.env`-file there are a few settings you might wanna check.
 You can for example specify which kinds of messages will be outputted and which ones will be suppressed.
