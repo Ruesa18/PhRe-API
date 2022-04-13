@@ -15,12 +15,6 @@ class MySQL implements DatabaseConnectable {
 
     /**
      * MySQL constructor.
-     *
-     * @param string $host If the host has been set to `localhost` it will try to access a socket and if it's `127.0.0.1` it will try to connect via IP-Address and Port.
-     * @param string $user
-     * @param string $password
-     * @param string $database
-     * @param integer $port
      */
     public function __construct() {
         $host = ConfigLoader::get("DB_HOST") ?? "127.0.0.1";

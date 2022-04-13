@@ -9,5 +9,6 @@
      * @package PHREAPI\kernel\utils\output
      */
     class Response extends AbstractResponse {
+        protected string $contentType = "text";
     }
 ?>

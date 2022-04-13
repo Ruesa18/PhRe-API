@@ -10,9 +10,7 @@
      */
     class HTMLResponse extends AbstractResponse {
 
-        public function setHttpHeaders() {
-            header('Content-Type: application/json');
-        }
+        protected string $contentType = "html";
 
         /**
          * Getter

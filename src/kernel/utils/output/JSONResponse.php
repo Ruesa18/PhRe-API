@@ -10,9 +10,7 @@
      */
     class JSONResponse extends AbstractResponse {
 
-        public function setHttpHeaders() {
-            header('Content-Type: application/json');
-        }
+        protected string $contentType = "json";
 
         /**
          * Getter

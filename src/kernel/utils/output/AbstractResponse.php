@@ -6,10 +6,11 @@
      * @package PHREAPI\kernel\utils\output
      */
     abstract class AbstractResponse {
-        protected $code;
-        protected $body;
+        protected int $code;
+        protected mixed $body;
+        protected string $contentType = "text";
 
-        public function __construct($code, $body) {
+        public function __construct(int $code, mixed $body) {
             $this->code = $code;
             $this->body = $body;
         }
@@ -22,7 +23,18 @@
             return $this->body;
         }
 
-        public function setHttpHeaders() {}
+        public function setHttpHeaders() {
+            switch($this->contentType) {
+                case "json":
+                    header('Content-Type: application/json');
+                    break;
+                case "html":
+                    header('Content-Type: text/html');
+                    break;
+                default:
+                    header('Content-Type: text/plain');
+            }
+        }
     }
 
 ?>
