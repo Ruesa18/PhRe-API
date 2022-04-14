@@ -1,3 +1,5 @@
+![](documentation/media/logo.png)
+
 # PhRe-API - PHP REST-API
 Yet another PHP Backend Framework.
 The possibility that it will not bring any new features is pretty big.
