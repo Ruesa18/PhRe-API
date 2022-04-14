@@ -1,0 +1,76 @@
+:root {
+    --color-main: #1FDE37;
+    --color-table-dark: #18AA2B;
+    --color-main-darker: #006515;
+    --color-table: #f3f3f3;
+    --color-table-alternate: #fff;
+    --color-white: #fff;
+}
+
+html, body {
+    padding: 0;
+    font-family: Consolas, Inconsolata, Andale Mono, Arial, sans-serif;
+}
+
+header {
+    width: 100%;
+}
+
+header .logo {
+    height: 200px;
+    width: 200px;
+}
+
+main {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+h1 {
+    color: var(--color-main-dark);
+}
+
+table {
+    width: 60%;
+    border-collapse: collapse;
+}
+
+table tr {
+    background-color: var(--color-table-alternate);
+}
+
+table tr:nth-child(even) {
+    background-color: var(--color-table);
+}
+
+table tr:first-child {
+    background-color: var(--color-main-darker);
+}
+
+table td, table th {
+    border: 1px solid var(--color-table-alternate);
+    box-sizing: border-box;
+}
+
+table td>*, table th {
+    padding: 5px 10px;
+}
+
+table tr:not(:first-child):hover {
+    filter: brightness(90%);
+}
+
+table th {
+    color: #fff;
+}
+
+table td a {
+    height: 100%;
+    width: 100%;
+    display: block;
+}
+
+table a[href] {
+    color: var(--color-main);
+}

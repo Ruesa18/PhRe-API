@@ -73,11 +73,12 @@ class Kernel {
         $endpoints = $routes->getEndpoints();
 
         $table = "<h1>Routes Definition</h1>";
-        $table .= "<table><tr><th>Route</th></tr>";
+        $table .= "<table><tr><th>Routes</th></tr>";
         foreach($endpoints as $endpointUrl => $endpointClass) {
             $table .= "<tr><td><a href='" . ROOT_URL . "api" . $endpointUrl . "'>$endpointUrl</a></td></tr>";
         }
         $table .= "</table>";
+        $table .= "<link rel='stylesheet' href='" . ROOT_URL . "src/kernel/utils/output/style.css'>";
         $response = new HTMLResponse(200, $table);
         echo $response->getBody();
     }

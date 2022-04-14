@@ -5,6 +5,7 @@ abstract class Routes {
     public static array $endpoints = array();
 
     public function getEndpoints() {
+        ksort(self::$endpoints);
         return self::$endpoints;
     }
 
