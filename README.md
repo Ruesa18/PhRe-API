@@ -17,6 +17,9 @@ Well... Here we go then!
 ## Installation
 In order to have a configuration file copy the `.env.example` file and name it `.env`.
 
+### Example API
+If you wanna use the example API, you will need to import the `sql/db.sql` script in a MySQL environment. Don't forget to connect PhRe-API with your database by configuring the credentials inside the `.env` file.
+
 ## Configuration
 Inside of the `.env`-file there are a few settings you might wanna check.
 You can for example specify which kinds of messages will be outputted and which ones will be suppressed.
