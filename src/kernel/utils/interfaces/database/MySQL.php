@@ -50,8 +50,12 @@ class MySQL implements DatabaseConnectable {
     }
 
     public function asObject(string $modelClass = null) {
+        $fetchedObjects = [];
         // if modelClass is given use PDO::FETCH_CLASS cause it will feed the data into a given Class that has the same attributes as the database-table.
-        return $this->data->fetchObject($modelClass ?? "stdClass");
+        while($data = $this->data->fetchObject($modelClass ?? "stdClass")) {
+            array_push($fetchedObjects, $data);
+        }
+        return $fetchedObjects;
     }
 }
 
