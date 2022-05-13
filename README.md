@@ -16,6 +16,12 @@ Well... Here we go then!
 # Documentation
 
 ## Installation
+You can either download the source from [GitHub](https://github.com/Ruesa18/PhRe-API) or you can use composer.
+```bash
+composer create-project sandro.ruefenacht/PhRe-API
+```
+
+## Setup
 In order to have a configuration file copy the `.env.example` file and name it `.env`.
 
 ### Example API
@@ -28,3 +34,4 @@ You can for example specify which kinds of messages will be outputted and which 
 ## Error Messages and such
 To output error, debug and other useful messages please use the class `PHREAPI\kernel\utils\output\Logger`.
 This will also check in the `.env`-file if the message-level is even allowed to be printed out.
+
