@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  web:
+    container_name: phre_api
+    build:
+      context: '.'
+      target: dev
+      args:
+        DDE_UID: ${DDE_UID}
+        DDE_GID: ${DDE_GID}
+    environment:
+      - VIRTUAL_HOST=phre-api.test
+      - SSH_AUTH_SOCK=/tmp/ssh-agent/socket
+    volumes:
+      - ssh-agent_socket-dir:/tmp/ssh-agent:ro
+      - ./:/var/www
+    hostname: phre-api
+    domainname: phre-api.test
+
+networks:
+  default:
+    external:
+      name: "dde"
+
+volumes:
+  ssh-agent_socket-dir:
+    external:
+      name: dde_ssh-agent_socket-dir

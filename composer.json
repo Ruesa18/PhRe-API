@@ -10,12 +10,13 @@
         }
     ],
     "require": {
-        "php": ">=7.4.0",
+        "php": ">=8.2",
         "ext-json": "*",
         "vlucas/phpdotenv": "^5.3",
         "ext-pdo": "*"
     },
     "require-dev": {
+        "roave/security-advisories": "dev-latest",
         "phpunit/phpunit": ">=8.5"
     },
     "autoload": {
