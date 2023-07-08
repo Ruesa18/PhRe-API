@@ -6,5 +6,3 @@ class UserModel {
     private $password;
     public $username;
 }
-
-?>

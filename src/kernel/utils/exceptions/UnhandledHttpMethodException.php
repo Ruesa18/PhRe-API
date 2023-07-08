@@ -5,7 +5,6 @@ namespace PHREAPI\kernel\utils\exceptions;
 /**
  * Class UnhandledHttpMethodException
  *
- * @package PHREAPI\kernel\utils\exceptions
  * @codeCoverageIgnore
  */
 class UnhandledHttpMethodException extends \Exception {
@@ -14,4 +13,3 @@ class UnhandledHttpMethodException extends \Exception {
         parent::__construct("The used HTTP-Method has sadly not been handled yet.");
     }
 }
-?>

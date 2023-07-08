@@ -12,29 +12,27 @@ use Dotenv\Exception\InvalidPathException;
  */
 class ConfigLoaderTest extends TestCase {
 
-    function testLoadNegative() {
+    public function testLoadNegative(): void {
         $this->expectException(InvalidPathException::class);
         ConfigLoader::load(__DIR__);
     }
 
-    function testLoadAndGetPositive() {
+    public function testLoadAndGetPositive(): void {
         ConfigLoader::load(__DIR__ . "/../../resources");
         $this->assertEquals("dev", ConfigLoader::get("APP_ENV"));
     }
 
-    function testLoadAndGetNegative() {
+    public function testLoadAndGetNegative(): void {
         $appEnv = ConfigLoader::get("NOT_EXISTING_KEY");
         $this->assertNull($appEnv);
     }
 
-    function testConvertPositive() {
+    public function testConvertPositive(): void {
         $input = ["1", "true", "false"];
         $expectedValues = ["1", true, false];
-        for($i = 0; $i < count($input); $i++) {
+        $inputCount = count($input);
+        for($i = 0; $i < $inputCount; $i++) {
             $this->assertSame($expectedValues[$i], ConfigLoader::convert($input[$i]));
         }
     }
 }
-
-
-?>

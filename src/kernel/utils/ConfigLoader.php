@@ -1,7 +1,6 @@
 <?php
 namespace PHREAPI\kernel\utils;
 
-use PHREAPI\kernel\utils\output\Logger;
 use Dotenv\Dotenv;
 
 /**
@@ -10,7 +9,7 @@ use Dotenv\Dotenv;
  */
 class ConfigLoader {
 
-    public static function load(string $directory) {
+    public static function load(string $directory): void {
         $env = Dotenv::createImmutable($directory);
         $env->load();
     }
@@ -22,15 +21,11 @@ class ConfigLoader {
         return null;
     }
 
-    public static function convert($value) {
-        switch($value) {
-            case "true":
-                return true;
-            case "false":
-                return false;
-            default:
-                return $value;
-        }
+    public static function convert(string $value): mixed {
+        return match ($value) {
+            "true" => true,
+            "false" => false,
+            default => $value,
+        };
     }
 }
-?>

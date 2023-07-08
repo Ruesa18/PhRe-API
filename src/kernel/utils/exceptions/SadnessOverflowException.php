@@ -5,7 +5,6 @@ namespace PHREAPI\kernel\utils\exceptions;
 /**
  * Class SadnessOverflowException
  *
- * @package PHREAPI\kernel\utils\exceptions
  * @codeCoverageIgnore
  */
 class SadnessOverflowException extends \Exception {
@@ -14,4 +13,3 @@ class SadnessOverflowException extends \Exception {
         parent::__construct("Max Sadness-Level reached. System shutting down.");
     }
 }
-?>

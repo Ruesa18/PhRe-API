@@ -4,7 +4,7 @@
 [![GitHub latest release](https://badgen.net/github/release/Ruesa18/PhRe-API?label=latest%20release)](https://github.com/Ruesa18/PhRe-API/releases/)
 [![GitHub latest stable release](https://badgen.net/github/release/Ruesa18/PhRe-API/stable?label=latest%20stable%20release)](https://github.com/Ruesa18/PhRe-API/releases/)
 [![GitHub latest commit](https://badgen.net/github/last-commit/Ruesa18/PhRe-API)](https://github.com/Ruesa18/PhRe-API/commit/)
-[![Recommended PHP Version](https://img.shields.io/badge/Recommended_PHP_Version->=8.0-blue.svg)](https://shields.io/)
+[![Recommended PHP Version](https://img.shields.io/badge/Recommended_PHP_Version->=8.2-blue.svg)](https://shields.io/)
 
 # PhRe-API - PHP REST-API
 Yet another PHP Backend Framework.
@@ -34,4 +34,3 @@ You can for example specify which kinds of messages will be outputted and which 
 ## Error Messages and such
 To output error, debug and other useful messages please use the class `PHREAPI\kernel\utils\output\Logger`.
 This will also check in the `.env`-file if the message-level is even allowed to be printed out.
-

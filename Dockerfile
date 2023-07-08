@@ -38,4 +38,3 @@ RUN composer install --prefer-dist
 FROM base as prod
 
 COPY --from=composer --chown=nginx:nginx /var/www /var/www/
-

@@ -5,7 +5,6 @@ namespace PHREAPI\kernel\utils\exceptions;
 /**
  * Class UnexpectedParameterTypeException
  *
- * @package PHREAPI\kernel\utils\exceptions
  * @codeCoverageIgnore
  */
 class UnexpectedParameterTypeException extends \Exception {
@@ -14,4 +13,3 @@ class UnexpectedParameterTypeException extends \Exception {
         parent::__construct("A parameter was not of the expected type. Please check the code documentation.");
     }
 }
-?>

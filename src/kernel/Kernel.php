@@ -2,12 +2,14 @@
 
 namespace PHREAPI\kernel;
 
+use PHREAPI\api\endpoints\EndpointInterface;
+use PHREAPI\api\Routes;
 use PHREAPI\kernel\utils\ConfigLoader;
-use PHREAPI\kernel\utils\input\Request;
-use PHREAPI\kernel\utils\output\Response;
-use PHREAPI\kernel\utils\output\AbstractResponse;
-use PHREAPI\kernel\utils\output\HTMLResponse;
 use PHREAPI\kernel\utils\enums\HttpMethod;
+use PHREAPI\kernel\utils\input\Request;
+use PHREAPI\kernel\utils\output\HTMLResponse;
+use PHREAPI\kernel\utils\output\JSONResponse;
+use PHREAPI\kernel\utils\output\ResponseInterface;
 
 /**
  * Class Kernel
@@ -16,10 +18,8 @@ use PHREAPI\kernel\utils\enums\HttpMethod;
  */
 class Kernel {
 
-    public function __construct($appDirectory) {
-
-        $cfgLoader = new ConfigLoader();
-        $cfgLoader->load($appDirectory);
+    public function init($appDirectory): ?string {
+        ConfigLoader::load($appDirectory);
 
         set_exception_handler(function($exception) {
             echo "<b>Exception:</b> " . $exception->getMessage();
@@ -28,48 +28,65 @@ class Kernel {
         $url = explode("/api", ROOT_URL);
 
         $urlEnding = false;
-        if(strpos(ROOT_URL, "/api") !== false) {
-            $urlEnding = count($url) > 1 && $url[1] != "" ? $url[1] : "/";
+        if(str_contains(ROOT_URL, "/api")) {
+            $urlEnding = count($url) > 1 && $url[1] !== "" ? $url[1] : "/";
         }
 
         if($urlEnding) {
             $response = $this->handleRequestedUrl($urlEnding);
-            $response->setHttpHeaders();
-            echo $response->getBody();
-            return $response->getBody();
+            $page = $response->setHttpHeaders()->getBody();
+            http_response_code($response->getCode());
+
+            if($page !== null) {
+                echo $page;
+            }
+            return $page;
         }
-        $this->loadInfoPage();
+        $page = $this->loadInfoPage();
+
+        echo $page;
+        return $page;
     }
 
-    private function handleRequestedUrl($url): AbstractResponse {
-        $routes = new \PHREAPI\api\Routes();
-        $endpoint = $routes->getEndpoint($url);
+    private function handleRequestedUrl($url): ResponseInterface {
+        $routes = new Routes();
+        $pos = strpos($url, '/', 1);
+        if($pos !== false) {
+            $urlParts = str_split($url, strpos($url, '/', 1));
+        } else {
+            $urlParts = [$url];
+        }
 
-        if($endpoint === false) {
-            return new Response(404, "Not Found");
+        $endpoint = $routes->getEndpoint($urlParts[0]);
+
+        if(!$endpoint) {
+            return new JSONResponse(404);
         }
 
         $instance = new $endpoint();
-        $response = $this->callByHttpMethod($instance);
+        $request = new Request();
+        $url = '' . $urlParts[0];
+        array_shift($urlParts);
 
-        return $response;
+        return $this->callByHttpMethod($instance, $request->setUrl($url)->setParameters($urlParts));
     }
 
-    private function callByHttpMethod($endpoint): AbstractResponse {
-        if($endpoint !== false) {
-            $request = new Request();
-
+    private function callByHttpMethod(?EndpointInterface $endpoint, Request $request): ResponseInterface {
+        if($endpoint !== null) {
             switch($request->getMethod()) {
                 case HttpMethod::GET:
                     return $endpoint->index($request);
-                    break;
+                case HttpMethod::POST:
+                    return $endpoint->create($request);
+                case HttpMethod::DELETE:
+                    return $endpoint->delete($request);
             }
         }
-        return new Response(404, "Not Found");
+        return new JSONResponse(404, "Not Found");
     }
 
-    private function loadInfoPage() {
-        $routes = new \PHREAPI\api\Routes();
+    private function loadInfoPage(): string {
+        $routes = new Routes();
         $endpoints = $routes->getEndpoints();
 
         $table = "<h1>Routes Definition</h1>";
@@ -79,9 +96,6 @@ class Kernel {
         }
         $table .= "</table>";
         $table .= "<link rel='stylesheet' href='" . ROOT_URL . "src/kernel/utils/output/style.css'>";
-        $response = new HTMLResponse(200, $table);
-        echo $response->getBody();
+        return (new HTMLResponse(200, $table))->getBody();
     }
 }
-
-?>

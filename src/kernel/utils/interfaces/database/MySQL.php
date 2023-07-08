@@ -4,44 +4,44 @@ namespace PHREAPI\kernel\utils\interfaces\database;
 
 use PDO;
 use PDOException;
-use PHREAPI\kernel\utils\exceptions\DatabaseConnectionException;
-use PHREAPI\kernel\utils\exceptions\UnexpectedParameterTypeException;
+use PDOStatement;
 use PHREAPI\kernel\utils\ConfigLoader;
+use PHREAPI\kernel\utils\exceptions\DatabaseConnectionException;
 
-/**
- *
- */
 class MySQL implements DatabaseConnectable {
+    private PDO $driver;
+
+    private ?PDOStatement $data;
 
     /**
      * MySQL constructor.
+     * @throws DatabaseConnectionException
      */
     public function __construct() {
-        $host = ConfigLoader::get("DB_HOST") ?? "127.0.0.1";
-        $user = ConfigLoader::get("DB_USER") ?? "root";
-        $password = ConfigLoader::get("DB_PASSWORD") ?? "";
-        $database = ConfigLoader::get("DB_DATABASE") ?? "phre-api";
+        $host = ConfigLoader::get("DB_HOST");
+        $user = ConfigLoader::get("DB_USER");
+        $password = ConfigLoader::get("DB_PASSWORD");
+        $database = ConfigLoader::get("DB_DATABASE");
         $port = ConfigLoader::get("DB_PORT") ?? 3306;
 
         $dsn = "mysql:host=$host;dbname=$database;port=$port";
         try {
             $this->driver = new PDO($dsn, $user, $password);
             $this->driver->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        }catch(PDOException $e) {
+        }catch(PDOException) {
             throw new DatabaseConnectionException();
         }
     }
 
-    public function execute(string $statement, $dataArray = null): MySQL {
-        if(!is_null($dataArray) && !is_array($dataArray)) throw new UnexpectedParameterTypeException();
-
-        if(is_null($dataArray)) {
-            $sth = $this->driver->prepare($statement);
-            $sth->execute();
+    public function execute(string $statement, ?array $data = null): self {
+        if(is_null($data)) {
+            $sth = $this->driver->query($statement);
             $this->data = $sth;
+            return $this;
         }
         $sth = $this->driver->prepare($statement);
-        $sth->execute($dataArray);
+        $this->data = $sth;
+        $sth->execute($data);
         return $this;
     }
 
@@ -49,14 +49,12 @@ class MySQL implements DatabaseConnectable {
         return $this->data->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function asObject(string $modelClass = null) {
+    public function asObjects(string $modelClass = null) {
         $fetchedObjects = [];
-        // if modelClass is given use PDO::FETCH_CLASS cause it will feed the data into a given Class that has the same attributes as the database-table.
+        // if modelClass is given, use PDO::FETCH_CLASS because it will feed the data into a given Class that has the same attributes as the database-table.
         while($data = $this->data->fetchObject($modelClass ?? "stdClass")) {
-            array_push($fetchedObjects, $data);
+            $fetchedObjects[] = $data;
         }
         return $fetchedObjects;
     }
 }
-
-?>

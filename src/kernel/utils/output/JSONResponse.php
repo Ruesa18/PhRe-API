@@ -1,24 +1,28 @@
 <?php
 
-    namespace PHREAPI\kernel\utils\output;
+namespace PHREAPI\kernel\utils\output;
+
+/**
+ * This class will be used to output a given response as JSON.
+ *
+ * @class JSONResponse
+ * @package PHREAPI\kernel\utils\output
+ */
+class JSONResponse extends AbstractResponse {
+
+    protected string $contentType = "json";
 
     /**
-     * This class will be used to output a given response as JSON.
+     * Getter
      *
-     * @class JSONResponse
-     * @package PHREAPI\kernel\utils\output
+     * @return string|null returns the http-body for the response as JSON.
      */
-    class JSONResponse extends AbstractResponse {
-
-        protected string $contentType = "json";
-
-        /**
-         * Getter
-         *
-         * @return mixed returns the http-body for the response as JSON.
-         */
-        public function getBody() {
-            return json_encode($this->body);
-        }
+    public function getBody(): ?string {
+        return $this->body ?? null;
     }
-?>
+
+    public function setBody(mixed $body): self {
+        $this->body = json_encode($body);
+        return $this;
+    }
+}
