@@ -1,6 +1,8 @@
 {
     "name": "sandro.ruefenacht/phre-api",
     "type": "project",
+    "description": "The PHP REST-API framework allows you to get a REST backend up and running in just minutes!",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "Sandro Rüfenacht",
