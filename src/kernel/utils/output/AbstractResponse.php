@@ -11,9 +11,9 @@ abstract class AbstractResponse implements ResponseInterface {
     protected ?string $body;
     protected string $contentType = 'text';
 
-    public function __construct(int $code, ?string $body = null) {
+    public function __construct(int $code, mixed $body = null) {
         $this->code = $code;
-        $this->body = $body;
+        $this->setBody($body);
     }
 
     public function getCode(): int
@@ -26,7 +26,7 @@ abstract class AbstractResponse implements ResponseInterface {
     }
 
     public function setBody(mixed $body): self {
-        $this->body = (string) $body;
+        $this->body = $body;
         return $this;
     }
 

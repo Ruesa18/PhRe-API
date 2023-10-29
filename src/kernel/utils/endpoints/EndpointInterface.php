@@ -1,8 +1,7 @@
 <?php
-namespace PHREAPI\api\endpoints;
+namespace PHREAPI\kernel\utils\endpoints;
 
 use PHREAPI\kernel\utils\input\Request;
-use PHREAPI\kernel\utils\output\AbstractResponse;
 use PHREAPI\kernel\utils\output\ResponseInterface;
 
 interface EndpointInterface {

@@ -24,7 +24,7 @@ class JSONResponse extends AbstractResponse {
      * @throws \JsonException
      */
     public function setBody(mixed $body): self {
-        $this->body = json_encode($body, JSON_THROW_ON_ERROR);
+        $this->body = $body !== null ? json_encode($body, JSON_THROW_ON_ERROR) : '';
         return $this;
     }
 }
