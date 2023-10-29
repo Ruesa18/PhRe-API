@@ -17,19 +17,18 @@ use PHREAPI\kernel\utils\output\ResponseInterface;
  * @package PHREAPI\kernel
  */
 class Kernel {
-
     public function init($appDirectory): ?string {
         ConfigLoader::load($appDirectory);
 
         set_exception_handler(function($exception) {
-            echo "<b>Exception:</b> " . $exception->getMessage();
+            echo sprintf('<b>Exception:</b> %s', $exception->getMessage());
         });
 
-        $url = explode("/api", ROOT_URL);
+        $url = explode('/api', ROOT_URL);
 
         $urlEnding = false;
-        if(str_contains(ROOT_URL, "/api")) {
-            $urlEnding = count($url) > 1 && $url[1] !== "" ? $url[1] : "/";
+        if(str_contains(ROOT_URL, '/api')) {
+            $urlEnding = count($url) > 1 && $url[1] !== '' ? $url[1] : '/';
         }
 
         if($urlEnding) {
@@ -82,20 +81,22 @@ class Kernel {
                     return $endpoint->delete($request);
             }
         }
-        return new JSONResponse(404, "Not Found");
+        return new JSONResponse(404, 'Not Found');
     }
 
     private function loadInfoPage(): string {
         $routes = new Routes();
         $endpoints = $routes->getEndpoints();
 
-        $table = "<h1>Routes Definition</h1>";
-        $table .= "<table><tr><th>Routes</th></tr>";
+        $table = '<h1>Routes Definition</h1>';
+
+        $rows = '';
         foreach($endpoints as $endpointUrl => $endpointClass) {
-            $table .= "<tr><td><a href='" . ROOT_URL . "api" . $endpointUrl . "'>$endpointUrl</a></td></tr>";
+            $rows .= sprintf('<tr><td><a href="%sapi%s">%s</a></td></tr>', ROOT_URL, $endpointUrl, $endpointUrl);
         }
-        $table .= "</table>";
-        $table .= "<link rel='stylesheet' href='" . ROOT_URL . "src/kernel/utils/output/style.css'>";
+
+        $table .= sprintf('<table><tr><th>Routes</th></tr>%s</table>', $rows);
+        $table .= sprintf('<link rel="stylesheet" href="%ssrc/kernel/utils/output/style.css">', ROOT_URL);
         return (new HTMLResponse(200, $table))->getBody();
     }
 }

@@ -3,7 +3,6 @@
 namespace PHREAPI\kernel\utils\security;
 
 class BCryptPasswordHasher implements PasswordHasherInterface {
-
     public function encrypt(string $secret): string {
         return password_hash($secret, PASSWORD_BCRYPT);
     }

@@ -7,6 +7,7 @@ use PDOException;
 use PDOStatement;
 use PHREAPI\kernel\utils\ConfigLoader;
 use PHREAPI\kernel\utils\exceptions\DatabaseConnectionException;
+use PSpell\Config;
 
 class MySQL implements DatabaseConnectable {
     private PDO $driver;
@@ -18,13 +19,13 @@ class MySQL implements DatabaseConnectable {
      * @throws DatabaseConnectionException
      */
     public function __construct() {
-        $host = ConfigLoader::get("DB_HOST");
-        $user = ConfigLoader::get("DB_USER");
-        $password = ConfigLoader::get("DB_PASSWORD");
-        $database = ConfigLoader::get("DB_DATABASE");
-        $port = ConfigLoader::get("DB_PORT") ?? 3306;
+        $host = ConfigLoader::get('DB_HOST');
+        $user = ConfigLoader::get('DB_USER');
+        $password = ConfigLoader::get('DB_PASSWORD');
+        $database = ConfigLoader::get('DB_DATABASE');
+        $port = ConfigLoader::get('DB_PORT') ?? 3306;
 
-        $dsn = "mysql:host=$host;dbname=$database;port=$port";
+        $dsn = sprintf('mysql:host=%s;dbname=%s;port=%s', $host, $database, $port);
         try {
             $this->driver = new PDO($dsn, $user, $password);
             $this->driver->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -45,14 +46,15 @@ class MySQL implements DatabaseConnectable {
         return $this;
     }
 
-    public function asAssoc() {
-        return $this->data->fetchAll(PDO::FETCH_ASSOC);
+    public function asAssoc(): array {
+        $assocData = $this->data->fetchAll(PDO::FETCH_ASSOC);
+        return $assocData !== false ? $assocData : [];
     }
 
-    public function asObjects(string $modelClass = null) {
+    public function asObjects(string $modelClass = null): array {
         $fetchedObjects = [];
         // if modelClass is given, use PDO::FETCH_CLASS because it will feed the data into a given Class that has the same attributes as the database-table.
-        while($data = $this->data->fetchObject($modelClass ?? "stdClass")) {
+        while($data = $this->data->fetchObject($modelClass ?? 'stdClass')) {
             $fetchedObjects[] = $data;
         }
         return $fetchedObjects;

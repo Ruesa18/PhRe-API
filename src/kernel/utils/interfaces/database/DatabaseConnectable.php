@@ -3,5 +3,5 @@
 namespace PHREAPI\kernel\utils\interfaces\database;
 
 interface DatabaseConnectable {
-    function execute(string $statement, ?array $data = null): self;
+    public function execute(string $statement, ?array $data = null): self;
 }
