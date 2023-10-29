@@ -2,14 +2,10 @@
 
 namespace PHREAPI\kernel;
 
-use PHREAPI\api\endpoints\EndpointInterface;
 use PHREAPI\api\Routes;
 use PHREAPI\kernel\utils\ConfigLoader;
-use PHREAPI\kernel\utils\enums\HttpMethod;
-use PHREAPI\kernel\utils\input\Request;
 use PHREAPI\kernel\utils\output\HTMLResponse;
-use PHREAPI\kernel\utils\output\JSONResponse;
-use PHREAPI\kernel\utils\output\ResponseInterface;
+use PHREAPI\kernel\utils\Router;
 
 /**
  * Class Kernel
@@ -17,10 +13,12 @@ use PHREAPI\kernel\utils\output\ResponseInterface;
  * @package PHREAPI\kernel
  */
 class Kernel {
+    public function __construct(protected Router $router = new Router()) {}
+
     public function init($appDirectory): ?string {
         ConfigLoader::load($appDirectory);
 
-        set_exception_handler(function($exception) {
+        set_exception_handler(static function($exception) {
             echo sprintf('<b>Exception:</b> %s', $exception->getMessage());
         });
 
@@ -32,7 +30,7 @@ class Kernel {
         }
 
         if($urlEnding) {
-            $response = $this->handleRequestedUrl($urlEnding);
+            $response = $this->router->handleRequestedUrl($urlEnding);
             $page = $response->setHttpHeaders()->getBody();
             http_response_code($response->getCode());
 
@@ -45,43 +43,6 @@ class Kernel {
 
         echo $page;
         return $page;
-    }
-
-    private function handleRequestedUrl($url): ResponseInterface {
-        $routes = new Routes();
-        $pos = strpos($url, '/', 1);
-        if($pos !== false) {
-            $urlParts = str_split($url, strpos($url, '/', 1));
-        } else {
-            $urlParts = [$url];
-        }
-
-        $endpoint = $routes->getEndpoint($urlParts[0]);
-
-        if(!$endpoint) {
-            return new JSONResponse(404);
-        }
-
-        $instance = new $endpoint();
-        $request = new Request();
-        $url = '' . $urlParts[0];
-        array_shift($urlParts);
-
-        return $this->callByHttpMethod($instance, $request->setUrl($url)->setParameters($urlParts));
-    }
-
-    private function callByHttpMethod(?EndpointInterface $endpoint, Request $request): ResponseInterface {
-        if($endpoint !== null) {
-            switch($request->getMethod()) {
-                case HttpMethod::GET:
-                    return $endpoint->index($request);
-                case HttpMethod::POST:
-                    return $endpoint->create($request);
-                case HttpMethod::DELETE:
-                    return $endpoint->delete($request);
-            }
-        }
-        return new JSONResponse(404, 'Not Found');
     }
 
     private function loadInfoPage(): string {
