@@ -2,8 +2,8 @@
 
 namespace PHREAPI\kernel\utils;
 
-use PHREAPI\api\endpoints\EndpointInterface;
 use PHREAPI\api\Routes;
+use PHREAPI\kernel\utils\endpoints\EndpointInterface;
 use PHREAPI\kernel\utils\enums\HttpMethod;
 use PHREAPI\kernel\utils\input\Request;
 use PHREAPI\kernel\utils\output\JSONResponse;

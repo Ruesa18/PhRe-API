@@ -7,5 +7,5 @@
 .idea/
 .dde
 
-/phpunit.xml
-.phpunit.result.cache
+phpunit.xml
+.phpunit.cache

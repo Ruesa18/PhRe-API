@@ -2,13 +2,15 @@
 namespace PHREAPI\api\endpoints;
 
 use PHREAPI\api\model\UserModel;
+use PHREAPI\kernel\utils\endpoints\AbstractEndpoint;
 use PHREAPI\kernel\utils\exceptions\MissingParameterException;
+use PHREAPI\kernel\utils\input\Request;
 use PHREAPI\kernel\utils\interfaces\database\MySQL;
 use PHREAPI\kernel\utils\output\JSONResponse;
 use PHREAPI\kernel\utils\output\ResponseInterface;
 
-class ExampleEndpoint implements EndpointInterface {
-    public function index($request): ResponseInterface {
+class ExampleEndpoint extends AbstractEndpoint {
+    public function index(Request $request): ResponseInterface {
         $mysql = new MySQL();
         $data = $mysql->execute('SELECT * FROM user')->asObjects(UserModel::class);
         return (new JSONResponse(200))->setBody($data);
@@ -17,7 +19,7 @@ class ExampleEndpoint implements EndpointInterface {
     /**
      * @throws \JsonException
      */
-    public function create($request): ResponseInterface {
+    public function create(Request $request): ResponseInterface {
         $mysql = new MySQL();
         $data = $request->getData();
         $mysql->execute('INSERT INTO user(username, password) VALUES(:username, :password)',
@@ -30,16 +32,10 @@ class ExampleEndpoint implements EndpointInterface {
         return (new JSONResponse(201))->setBody($data);
     }
 
-    public function update($request): ResponseInterface {}
-
-    public function patch($request): ResponseInterface {}
-
-    public function option($request): ResponseInterface {}
-
     /**
      * @throws MissingParameterException|\JsonException
      */
-    public function delete($request): ResponseInterface {
+    public function delete(Request $request): ResponseInterface {
         $mysql = new MySQL();
         $parameters = $request->getParameters();
 
