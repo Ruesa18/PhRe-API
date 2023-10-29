@@ -8,18 +8,19 @@ use PHREAPI\kernel\utils\output\JSONResponse;
 use PHREAPI\kernel\utils\output\ResponseInterface;
 
 class ExampleEndpoint implements EndpointInterface {
-    private $data;
-
     public function index($request): ResponseInterface {
         $mysql = new MySQL();
-        $data = $mysql->execute("SELECT * FROM user")->asObjects(UserModel::class);
+        $data = $mysql->execute('SELECT * FROM user')->asObjects(UserModel::class);
         return (new JSONResponse(200))->setBody($data);
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function create($request): ResponseInterface {
         $mysql = new MySQL();
         $data = $request->getData();
-        $mysql->execute("INSERT INTO user(username, password) VALUES(:username, :password)",
+        $mysql->execute('INSERT INTO user(username, password) VALUES(:username, :password)',
             [
                 'username' => $data->username,
                 'password' => $data->password,
@@ -36,7 +37,7 @@ class ExampleEndpoint implements EndpointInterface {
     public function option($request): ResponseInterface {}
 
     /**
-     * @throws MissingParameterException
+     * @throws MissingParameterException|\JsonException
      */
     public function delete($request): ResponseInterface {
         $mysql = new MySQL();
@@ -46,7 +47,7 @@ class ExampleEndpoint implements EndpointInterface {
             throw new MissingParameterException();
         }
 
-        $users = $mysql->execute("SELECT * FROM user WHERE id = :id",
+        $users = $mysql->execute('SELECT * FROM user WHERE id = :id',
             [
                 'id' => $parameters[0],
             ]
@@ -56,7 +57,7 @@ class ExampleEndpoint implements EndpointInterface {
             return new JSONResponse(404);
         }
 
-        $mysql->execute("DELETE FROM user WHERE id = :id",
+        $mysql->execute('DELETE FROM user WHERE id = :id',
             [
                 'id' => $parameters[0],
             ]
@@ -64,8 +65,4 @@ class ExampleEndpoint implements EndpointInterface {
 
         return (new JSONResponse(200))->setBody(['id' => $parameters[0]]);
     }
-
-    public function asAssoc() {}
-
-    public function asObject() {}
 }

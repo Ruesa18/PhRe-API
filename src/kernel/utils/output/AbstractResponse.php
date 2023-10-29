@@ -9,7 +9,7 @@ namespace PHREAPI\kernel\utils\output;
 abstract class AbstractResponse implements ResponseInterface {
     protected int $code;
     protected ?string $body;
-    protected string $contentType = "text";
+    protected string $contentType = 'text';
 
     public function __construct(int $code, ?string $body = null) {
         $this->code = $code;
@@ -33,10 +33,10 @@ abstract class AbstractResponse implements ResponseInterface {
     public function setHttpHeaders(): self
     {
         switch($this->contentType) {
-            case "json":
+            case 'json':
                 header('Content-Type: application/json');
                 break;
-            case "html":
+            case 'html':
                 header('Content-Type: text/html');
                 break;
             default:

@@ -9,8 +9,7 @@ namespace PHREAPI\kernel\utils\output;
  * @package PHREAPI\kernel\utils\output
  */
 class JSONResponse extends AbstractResponse {
-
-    protected string $contentType = "json";
+    protected string $contentType = 'json';
 
     /**
      * Getter
@@ -21,8 +20,11 @@ class JSONResponse extends AbstractResponse {
         return $this->body ?? null;
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function setBody(mixed $body): self {
-        $this->body = json_encode($body);
+        $this->body = json_encode($body, JSON_THROW_ON_ERROR);
         return $this;
     }
 }

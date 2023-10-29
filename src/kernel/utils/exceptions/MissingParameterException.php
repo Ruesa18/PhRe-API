@@ -9,6 +9,6 @@ namespace PHREAPI\kernel\utils\exceptions;
  */
 class MissingParameterException extends \Exception {
     public function __construct() {
-        parent::__construct("An expected parameter has not been supplied. Please refer to the documentation.");
+        parent::__construct('An expected parameter has not been supplied. Please refer to the documentation.');
     }
 }

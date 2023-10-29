@@ -12,7 +12,7 @@ class Request {
     private string $url;
 
     /**
-     * @throws UnhandledHttpMethodException
+     * @throws UnhandledHttpMethodException|\JsonException
      */
     public function __construct() {
         switch($_SERVER['REQUEST_METHOD']) {
@@ -24,7 +24,7 @@ class Request {
                 $requestBody = file_get_contents('php://input');
                 $validator = new JsonValidator();
                 if($validator->validate($requestBody)) {
-                   $this->data = json_decode($requestBody, false);
+                   $this->data = json_decode($requestBody, false, 512, JSON_THROW_ON_ERROR);
                 }
                 $this->method = HttpMethod::POST;
                 break;
