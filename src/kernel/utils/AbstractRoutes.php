@@ -1,7 +1,9 @@
 <?php
 namespace PHREAPI\kernel\utils;
 
-abstract class Routes {
+use PHREAPI\kernel\utils\interfaces\RoutesInterface;
+
+abstract class AbstractRoutes implements RoutesInterface {
     public static array $endpoints = array();
 
     public function getEndpoints(): array {

@@ -2,7 +2,7 @@
 
 namespace PHREAPI\kernel;
 
-use PHREAPI\api\Routes;
+use PHREAPI\api\AbstractRoutes;
 use PHREAPI\kernel\utils\ConfigLoader;
 use PHREAPI\kernel\utils\output\HTMLResponse;
 use PHREAPI\kernel\utils\Router;
@@ -53,7 +53,7 @@ class Kernel {
     }
 
     private function loadInfoPage(): string {
-        $routes = new Routes();
+        $routes = new AbstractRoutes();
         $endpoints = $routes->getEndpoints();
 
         $table = '<h1>Routes Definition</h1>';

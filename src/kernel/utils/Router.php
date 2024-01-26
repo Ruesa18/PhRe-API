@@ -2,15 +2,16 @@
 
 namespace PHREAPI\kernel\utils;
 
-use PHREAPI\api\Routes;
+use PHREAPI\api\AbstractRoutes;
 use PHREAPI\kernel\utils\endpoints\EndpointInterface;
 use PHREAPI\kernel\utils\enums\HttpMethod;
 use PHREAPI\kernel\utils\input\Request;
+use PHREAPI\kernel\utils\interfaces\RoutesInterface;
 use PHREAPI\kernel\utils\output\JSONResponse;
 use PHREAPI\kernel\utils\output\ResponseInterface;
 
 class Router {
-    public function __construct(protected Routes $routes = new Routes()) {}
+    public function __construct(protected RoutesInterface $routes = new AbstractRoutes()) {}
 
     public function handleRequestedUrl($url): ResponseInterface {
         $pos = strpos($url, '/', 1);
