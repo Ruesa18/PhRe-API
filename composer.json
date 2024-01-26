@@ -17,7 +17,8 @@
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
-        "phpunit/phpunit": ">=8.5"
+        "phpunit/phpunit": ">=8.5",
+        "phpstan/phpstan": "^1.10"
     },
     "autoload": {
         "psr-4": {
@@ -26,6 +27,7 @@
         }
     },
     "scripts": {
-        "test": "./vendor/bin/phpunit ."
+        "test": "./vendor/bin/phpunit .",
+        "phpstan": "./vendor/bin/phpstan analyse -c phpstan.neon"
     }
 }
