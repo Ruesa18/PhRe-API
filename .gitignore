@@ -2,7 +2,7 @@
 
 /vendor/
 
-.env
+./.env
 
 .idea/
 .dde
