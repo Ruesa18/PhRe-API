@@ -11,4 +11,9 @@ error_reporting(E_ALL);
 $defaultAppDir = dirname(__FILE__, 2);
 
 $kernel = new Kernel();
+
+if(!defined('ROOT_DIR')) {
+    throw new \RuntimeException('Could not find needed ROOT_DIR constant on boot-up.');
+}
+
 $kernel->init(ROOT_DIR ?? $defaultAppDir);

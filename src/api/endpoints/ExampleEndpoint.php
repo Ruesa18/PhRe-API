@@ -24,8 +24,8 @@ class ExampleEndpoint extends AbstractEndpoint {
         $data = $request->getData();
         $mysql->execute('INSERT INTO user(username, password) VALUES(:username, :password)',
             [
-                'username' => $data->username,
-                'password' => $data->password,
+                'username' => $data['username'],
+                'password' => $data['password'],
             ]
         );
         $mysql->asAssoc();

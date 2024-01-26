@@ -13,7 +13,14 @@ use PHREAPI\kernel\utils\Router;
  * @package PHREAPI\kernel
  */
 class Kernel {
-    public function __construct(protected Router $router = new Router()) {}
+    private string $rootUrl;
+
+    public function __construct(protected Router $router = new Router()) {
+        if(!defined('ROOT_URL')) {
+            throw new \RuntimeException('Could not find needed ROOT_DIR constant on kernel boot-up.');
+        }
+        $this->rootUrl = ROOT_URL;
+    }
 
     public function init($appDirectory): ?string {
         ConfigLoader::load($appDirectory);
@@ -22,10 +29,10 @@ class Kernel {
             echo sprintf('<b>Exception:</b> %s', $exception->getMessage());
         });
 
-        $url = explode('/api', ROOT_URL);
+        $url = explode('/api', $this->rootUrl);
 
         $urlEnding = false;
-        if(str_contains(ROOT_URL, '/api')) {
+        if(str_contains($this->rootUrl, '/api')) {
             $urlEnding = count($url) > 1 && $url[1] !== '' ? $url[1] : '/';
         }
 
@@ -53,11 +60,11 @@ class Kernel {
 
         $rows = '';
         foreach($endpoints as $endpointUrl => $endpointClass) {
-            $rows .= sprintf('<tr><td><a href="%sapi%s">%s</a></td></tr>', ROOT_URL, $endpointUrl, $endpointUrl);
+            $rows .= sprintf('<tr><td><a href="%sapi%s">%s</a></td></tr>', $this->rootUrl, $endpointUrl, $endpointUrl);
         }
 
         $table .= sprintf('<table><tr><th>Routes</th></tr>%s</table>', $rows);
-        $table .= sprintf('<link rel="stylesheet" href="%ssrc/kernel/utils/output/style.css">', ROOT_URL);
+        $table .= sprintf('<link rel="stylesheet" href="%ssrc/kernel/utils/output/style.css">', $this->rootUrl);
         return (new HTMLResponse(200, $table))->getBody();
     }
 }

@@ -47,8 +47,7 @@ class MySQL implements DatabaseConnectable {
     }
 
     public function asAssoc(): array {
-        $assocData = $this->data->fetchAll(PDO::FETCH_ASSOC);
-        return $assocData !== false ? $assocData : [];
+        return $this->data->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function asObjects(string $modelClass = null): array {
