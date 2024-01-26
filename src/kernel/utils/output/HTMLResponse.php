@@ -16,9 +16,13 @@ class HTMLResponse extends AbstractResponse {
     /**
      * Getter
      *
-     * @return mixed returns the http-body for the response as HTML.
+     * @return string returns the http-body for the response as HTML.
      */
     public function getBody(): string {
+        if(!defined('ROOT_DIR')) {
+            throw new \RuntimeException('Could not find needed ROOT_DIR constant while building HTML Response.');
+        }
+
         $dir = sprintf('%s/src/kernel/utils/output/', ROOT_DIR);
 
         $content = sprintf(
