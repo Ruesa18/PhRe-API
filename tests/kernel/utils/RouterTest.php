@@ -6,6 +6,8 @@ use PHPUnit\Framework\TestCase;
 use PHREAPI\kernel\utils\enums\HttpMethod;
 use PHREAPI\kernel\utils\exceptions\UnhandledHttpMethodException;
 use PHREAPI\kernel\utils\Router;
+use PHREAPI\kernel\utils\AbstractRoutes;
+use PHREAPITests\src\api\TestAbstractRoutes;
 
 /**
  * Class ConfigLoaderTest
@@ -15,8 +17,11 @@ use PHREAPI\kernel\utils\Router;
 class RouterTest extends TestCase {
     private Router $router;
 
+    private AbstractRoutes $routes;
+
     public function setUp(): void {
-        $this->router = new Router();
+        $this->routes = new TestAbstractRoutes();
+        $this->router = new Router($this->routes);
     }
 
     /**
